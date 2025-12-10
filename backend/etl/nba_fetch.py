@@ -1,8 +1,8 @@
 from balldontlie import BalldontlieAPI
 from dotenv import load_dotenv
 import os
-from datetime import datetime
 import requests
+import time
 
 load_dotenv()
 
@@ -39,7 +39,11 @@ def fetch_season(season: int, per_page: int = 100):
 
         try:
             data = r.json()
-            all_games.append(data)
+            games_list = data["data"]
+
+            for game_dict in games_list:
+                all_games.append(game_dict)            
+
             if cursor:
                 print(f"successfully appended batch with cursor {params["cursor"]}")
             else:
@@ -51,8 +55,18 @@ def fetch_season(season: int, per_page: int = 100):
         if not cursor:
             break
         elif r.status_code == 429:
-            print("Too many requests")
-            break
-    
+            print("Too many requests, waiting 1 minute before fetching next batch...")
+            time.sleep(61) # this is because balldontlie API only allows 5 requests/min currently.
+            print("61 seconds have passed, gathering next batch.")
 
-fetch_season(2024)
+    return all_games
+    
+"""
+games = fetch_season(2024)
+
+i = 1
+for print_game in games:
+    print(print_game)
+    print(f"game {i}")
+    i += 1
+    """
