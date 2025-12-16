@@ -1,9 +1,5 @@
-# function that takes a game dict from nba_fetch.py, and slims it down to only the fields I need. also checks for missing values and such
-# only cleans finished games, and regular season games. playoffs games will be included in the future.
-
-
-import nba_fetch
-
+# ----- Function that takes a game dict from nba_fetch.py, and slims it down to only the fields I need. also checks for missing values and such
+# ----- Only cleans finished games, and regular season games. playoffs games will be included in the future.
 
 def clean_game(game_dict):
     new_dict = {}
@@ -24,13 +20,15 @@ def clean_game(game_dict):
         except Exception as e:
             print(f"Error in clean_game in clean.py: {e}")
 
-    new_dict["game_date"] = game_date
-    new_dict["season"] = season
-    new_dict["home_team_id"] = home_team_id
-    new_dict["away_team_id"] = away_team_id
-    new_dict["home_score"] = home_score
-    new_dict["away_score"] = away_score
-    new_dict["winner_team_id"] = winner_team_id
+        new_dict["game_date"] = game_date
+        new_dict["season"] = season
+        new_dict["home_team_id"] = home_team_id
+        new_dict["away_team_id"] = away_team_id
+        new_dict["home_score"] = home_score
+        new_dict["away_score"] = away_score
+        new_dict["winner_team_id"] = winner_team_id
+    else:
+        print("skipped game")
 
     return new_dict
 

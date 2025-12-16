@@ -4,6 +4,8 @@ import os
 import requests
 import time
 
+# ----  Fetches raw nba game data for one season, returns a list of dictionaries
+
 load_dotenv()
 
 BALLDONTLIE_KEY = os.getenv("BALLDONTLIE_KEY")
@@ -12,9 +14,6 @@ api = BalldontlieAPI(api_key=BALLDONTLIE_KEY)
 headers = {
             "Authorization" : BALLDONTLIE_KEY
         }
-
-#year = int(datetime.today().strftime("%Y"))
-#seasons_to_fetch = [year,year-1,year-2]
 
 def fetch_season(season: int, per_page: int = 100):
     all_games = [] # 
@@ -47,7 +46,7 @@ def fetch_season(season: int, per_page: int = 100):
             if cursor:
                 print(f"successfully appended batch with cursor {params["cursor"]}")
             else:
-                print("Printed first batch successfully!")
+                print("Fetched first batch successfully!")
         except Exception as e:
             print(f"Error: {e}")
 
@@ -59,9 +58,10 @@ def fetch_season(season: int, per_page: int = 100):
             time.sleep(61) # this is because balldontlie API only allows 5 requests/min currently.
             print("61 seconds have passed, gathering next batch.")
 
+    print("Fetched games successfully.")
     return all_games
     
-"""
+'''''
 games = fetch_season(2024)
 
 i = 1
@@ -69,4 +69,5 @@ for print_game in games:
     print(print_game)
     print(f"game {i}")
     i += 1
-    """
+    break
+'''
