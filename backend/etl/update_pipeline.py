@@ -4,21 +4,25 @@ from backend.etl import nba_fetch, clean, load
 from datetime import datetime
 
 def run_pipeline():
-    data = []
+    raw_data = []
     cleaned_data = []
     year = int(datetime.today().strftime("%Y"))
     seasons = [year,year-1,year-2]
 
     for season in seasons:
-        data.extend(nba_fetch.fetch_season(season))
+        raw_data.extend(nba_fetch.fetch_season(season))
 
-    for game in data:
-        cleaned_data.append(clean.clean_game(game))
+    for game in raw_data:
+        cleaned_game = clean.clean_game(game)
+        if cleaned_game is not None:
+            cleaned_data.append(cleaned_game)
 
-    if load.load_teams(data):
+    if load.load_teams(raw_data):
         print("loaded teams to supabase in pipeline")
         if load.load_games(cleaned_data):
             print("loaded games to supabase in pipeline")
+        else:
+            print("error with loading games")
     else:
         print("load error in pipeline")
 

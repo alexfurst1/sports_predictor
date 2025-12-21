@@ -6,6 +6,7 @@ def clean_game(game_dict):
 
     if game_dict["status"] == "Final" and game_dict["postseason"] == False: 
         try:
+                external_game_id = int(game_dict["id"])
                 game_date = str(game_dict["date"])
                 season = int(game_dict["season"])
                 home_team_id = int(game_dict["home_team"]["id"])
@@ -20,6 +21,7 @@ def clean_game(game_dict):
         except Exception as e:
             print(f"Error in clean_game in clean.py: {e}")
 
+        new_dict["external_game_id"] = external_game_id
         new_dict["game_date"] = game_date
         new_dict["season"] = season
         new_dict["home_team_id"] = home_team_id
@@ -29,6 +31,7 @@ def clean_game(game_dict):
         new_dict["winner_team_id"] = winner_team_id
     else:
         print("skipped game")
+        return None
 
     return new_dict
 

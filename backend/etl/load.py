@@ -45,11 +45,14 @@ def load_teams(raw_games: list[dict]):
             
             
 def load_games(cleaned_games: list[dict]):
+    cleaned_games = [g for g in cleaned_games if g is not None]
+    print("Number of cleaned games: ", len(cleaned_games))
+
     try:
-        batch_upsert("games",cleaned_games,"external_game_id",100)
+        batch_upsert("games",cleaned_games,"external_game_id",100) 
         print("Batch upserted games to supabase successfully.")
         return True
     except Exception as e:
         print(f"Error with batch upsert in load_games: {e}")
         return False
-
+ 

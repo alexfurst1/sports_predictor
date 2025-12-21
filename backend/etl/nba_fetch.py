@@ -16,7 +16,7 @@ headers = {
         }
 
 def fetch_season(season: int, per_page: int = 100):
-    all_games = [] # 
+    all_games = [] 
     base_url = f'https://api.balldontlie.io/v1/games'
     cursor = None
 
